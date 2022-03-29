@@ -1,7 +1,7 @@
 const  baseCoffeeURL = "https://api.sampleapis.com/coffee";
+const description = document.querySelector(".description");
+const ingredients = document.querySelector(".ingredients");
 let coffeeList = [];
-let description = document.querySelector(".description");
-let ingredients = document.querySelector(".ingredients");
 
 function reloadCard() {
     for(let i in coffeeList) {
@@ -15,21 +15,13 @@ function reloadCard() {
     }
 }
 
-function testScript() {
-    console.log(this.id);
-}
-
-let button = document.querySelectorAll("button");
-
 async function getCoffee(type) {
-    let data = await fetch(`${baseCoffeeURL}/${type}`);
-    let content = await data.json();
-    //console.log(content);
-
-    let hotCoffeeList = document.querySelector(`.${type}`);
+    const data = await fetch(`${baseCoffeeURL}/${type}`);
+    const content = await data.json();
+    const CoffeeList = document.querySelector(`.${type}`);
 
     for(let i in content) {
-        hotCoffeeList.innerHTML += `
+        CoffeeList.innerHTML += `
             <li class="drink"><button id="${type}${content[i].id}">${content[i].title}</button></li>
         `;
         coffeeList.push({
@@ -39,18 +31,11 @@ async function getCoffee(type) {
             ingredients: content[i].ingredients
         });
     }
-    console.log(coffeeList);
-
-    let buttons = document.querySelectorAll("button");
-
+    const buttons = document.querySelectorAll("button");
     for (let i in buttons) {
         buttons[i].onclick = reloadCard;
     }
-
-   //buttons.forEach(this.onclick = testScript());
 }
 
 getCoffee("hot");
 getCoffee("iced");
-
-
